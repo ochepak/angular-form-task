@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-5">
+    <div class="card">
+      <div class="card-body">
+        <div class="form-group">
+          <label for="numOfUsersInput">Number of users</label>
+          <input type="number" class="form-control" id="numOfUsersInput" #numOfUsersInput max="10" min="1"
+                 [value]="form.get('items').value.length">
+        </div>
+        <button class="btn btn-primary" type="button" (click)="generateForm(+numOfUsersInput.value)">Generate form</button>
+      </div>
+    </div>
+  </div>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <fieldset formArrayName="items">
+    <div class="form-group row"
+         *ngFor="let item of form.get('items').controls; let i=index"
+         [formGroup]="item">
+      <div class="col-sm-2">
+        <label [attr.for]="'name'+i">Name</label>
+        <input type="text" class="form-control"
+               [attr.id]="'name'+i" formControlName="name"
+               [ngClass]="{'is-invalid': item.get('name').pristine && item.get('name').touched}"
+        >
+      </div>
+      <div class="col-sm-3">
+        <label [attr.for]="'email'+i">Email</label>
+        <input type="email" class="form-control"
+               [attr.id]="'email'+i" formControlName="email"
+               [ngClass]="{'is-invalid': item.get('email').invalid && item.get('email').touched}"
+        >
+      </div>
+      <div class="col-sm-3">
+        <label [attr.for]="'phone'+i">Phone</label>
+        <input type="tel" class="form-control"
+               [attr.id]="'phone'+i" formControlName="phone"
+               [ngClass]="{'is-invalid': item.get('phone').invalid && item.get('phone').touched}"
+        >
+      </div>
+      <div class="col-sm-2">
+        <button type="button" class="btn btn-danger"
+                [disabled]="form.get('items').value.length < 2"
+                (click)="form.get('items').removeAt(i)"
+        >Remove user</button>
+      </div>
+    </div>
+  </fieldset>
+  <div  class="form-group row">
+    <div class="col-sm-2">
+      <button type="submit"
+              class="btn btn-primary"
+              [disabled]="form.invalid"
+      >Submit</button>
+    </div>
+    <div class="col-sm-2">
+      <button type="button" class="btn btn-link"
+              (click)="form.get('items').push(buildItem())"
+              [disabled]="form.get('items').value.length > 9"
+      >Add user</button>
+    </div>
+  </div>
+</form>
+<pre *ngIf="result">
+  {{ result }}
+</pre>
