@@ -40,4 +40,8 @@ export class UsersComponent implements OnInit {
       items: this.fb.array(items)
     });
   }
+
+  clearResult() {
+    this.result = '';
+  }
 }

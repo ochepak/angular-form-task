@@ -10,6 +10,13 @@ pre{
   padding: 10px;
   background: #e1e6ea;
 }
+form label::after{
+  content: '*';
+  color: red;
+}
 small{
   color: red;
+}
+.result-clean{
+  margin-top: 20px;
 }
