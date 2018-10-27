@@ -17,12 +17,13 @@
     <div class="form-group row"
          *ngFor="let item of form.get('items').controls; let i=index"
          [formGroup]="item">
-      <div class="col-sm-2">
+      <div class="col-sm-3">
         <label [attr.for]="'name'+i">Name</label>
         <input type="text" class="form-control"
                [attr.id]="'name'+i" formControlName="name"
                [ngClass]="{'is-invalid': item.get('name').pristine && item.get('name').touched}"
         >
+        <small *ngIf="item.get('name').pristine && item.get('name').touched">Name field cannot be empty.</small>
       </div>
       <div class="col-sm-3">
         <label [attr.for]="'email'+i">Email</label>
@@ -30,6 +31,8 @@
                [attr.id]="'email'+i" formControlName="email"
                [ngClass]="{'is-invalid': item.get('email').invalid && item.get('email').touched}"
         >
+        <small *ngIf="item.get('email').pristine && item.get('email').touched">Email field cannot be empty.</small>
+        <small *ngIf="item.get('email').dirty && item.get('email').invalid">Email is not valid.</small>
       </div>
       <div class="col-sm-3">
         <label [attr.for]="'phone'+i">Phone</label>
@@ -37,6 +40,8 @@
                [attr.id]="'phone'+i" formControlName="phone"
                [ngClass]="{'is-invalid': item.get('phone').invalid && item.get('phone').touched}"
         >
+        <small *ngIf="item.get('phone').pristine && item.get('phone').touched">Phone field cannot be empty.</small>
+        <small *ngIf="item.get('phone').dirty && item.get('phone').invalid">Phone is not valid.</small>
       </div>
       <div class="col-sm-2">
         <button type="button" class="btn btn-danger"
