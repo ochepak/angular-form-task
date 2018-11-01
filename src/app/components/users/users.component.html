@@ -16,13 +16,13 @@
   <fieldset formArrayName="items">
     <div class="form-group row"
          *ngFor="let item of form.get('items').controls; let i=index"
-         [formGroup]="item">
+         [formGroupName]="i">
       <div class="col-sm-3">
         <label [attr.for]="'name'+i">Name</label>
         <input type="text" class="form-control"
                [attr.id]="'name'+i" formControlName="name"
-               [ngClass]="{'is-invalid': item.get('name').pristine && item.get('name').touched}"
-        >
+               [ngClass]="{'is-invalid': item.get('name').invalid && item.get('name').touched}"
+               >
       </div>
       <div class="col-sm-3">
         <label [attr.for]="'email'+i">Email</label>
@@ -37,13 +37,13 @@
         <input type="tel" class="form-control"
                [attr.id]="'phone'+i" formControlName="phone"
                [ngClass]="{'is-invalid': item.get('phone').invalid && item.get('phone').touched}"
-        >
+               >
         <small *ngIf="item.get('phone').invalid && item.get('phone').touched">Phone is not valid.</small>
       </div>
       <div class="col-sm-2">
         <button type="button" class="btn btn-danger"
                 [disabled]="form.get('items').value.length < 2"
-                (click)="form.get('items').removeAt(i)"
+                (click)="deleteUserForm(i)"
         >Remove user</button>
       </div>
     </div>
@@ -65,5 +65,5 @@
 </form>
 <pre *ngIf="result">
   {{ result }}
-  <button type="button" class="btn btn-warning result-clean" (click)="clearResult()">Clear</button>
+  <button type="button" class="btn btn-warning result-clean" (click)="cleanResult()">Clear</button>
 </pre>

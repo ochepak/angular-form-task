@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-users',
@@ -18,10 +18,10 @@ export class UsersComponent implements OnInit {
   }
 
   buildItem() {
-    return new FormGroup({
-      name: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl('', [Validators.required, Validators.pattern(new RegExp(/^[+]?\d{10,12}$/))])
+    return this.fb.group({
+      name: ['', Validators.required],
+      email: ['', Validators.compose([Validators.required, Validators.email])],
+      phone: ['', Validators.compose([Validators.required, Validators.pattern(new RegExp(/^[+]?\d{10,12}$/))])]
     });
   }
 
@@ -41,7 +41,12 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  clearResult() {
+  deleteUserForm(formNumber: number) {
+    const items = this.form.get('items') as FormArray;
+    items.removeAt(formNumber);
+  }
+
+  cleanResult() {
     this.result = '';
   }
 }
